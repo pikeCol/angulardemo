@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
+		<title></title>
+	</head>
+	<body ng-app="myapp">
+		
+		<div ng-controller="myctrl">
+			<drink favor="{{ctrfavor}}"></drink>
+		</div>
+		
+		<script type="text/javascript">
+		
+//		scope绑定策略:  @ 把当前属性当做字符串传递,你还可以绑定外层scope的值,在属性值中插入{{}},即可.
+//				= 与父scope的属性进行双向绑定
+//				& 传递一个来自父scope的函数,稍后调用
+		
+			var app = angular.module('myapp',[]);
+			app.controller('myctrl',function($scope){
+				$scope.ctrfavor="百威"
+			})
+			app.directive('drink',function(){
+				return {
+					restrict:'AE',
+					scope:{
+						favor:'@'
+					},
+					template:'<div>{{favor}}</div>'
+//					,
+//					link:function(scope,element,attrs){
+//						scope.favor = attrs.favor
+//					}
+				}
+			})
+			
+		</script>
+	</body>
+</html>

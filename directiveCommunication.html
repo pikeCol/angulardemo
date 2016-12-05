@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
+		<title></title>
+	</head>
+	<body ng-app="myapp">
+		
+		<superman streng>我！就是力量的化身</superman>
+		<superman streng speed>力量+敏捷</superman>
+		<superman streng speed light>力量+敏捷+光</superman>
+			
+		<script type="text/javascript">
+			var app = angular.module('myapp',[]);
+			app.directive('superman',function(){
+				return {
+					scope: {},
+					restrict: 'AE',
+					controller: function( $scope ){
+						$scope.abilities = [];
+						this.addStreng = function(){
+							$scope.abilities.push('strength')
+						};
+						this.speed = function(){
+							$scope.abilities.push('speed')
+						};
+						this.light = function(){
+							$scope.abilities.push('light')
+						}
+					},
+					link: function(scope,element,attrs){
+						element.bind('mouseenter',function(){
+							console.log(scope.abilities)
+						})
+					}
+				}
+			})
+			
+			app.directive('streng',function(){
+				return{
+					require:'^superman',
+					link:function(scope,element,attrs,supermanCtrl) {
+						supermanCtrl.addStreng();
+					}
+				}
+				
+			})
+			
+			app.directive('speed',function(){
+				return{
+					require:'^superman',
+					link:function(scope,element,attrs,supermanCtrl) {
+						supermanCtrl.speed();
+					}
+				}
+				
+			})
+			
+			app.directive('light',function(){
+				return{
+					require:'^superman',
+					link:function(scope,element,attrs,supermanCtrl) {
+						supermanCtrl.light();
+					}
+				}
+				
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
+		<title></title>
+	</head>
+	<body ng-app="myapp">
+		<hello></hello>
+							
+		<script type="text/javascript">
+			
+//			缓存
+			
+			var app = angular.module('myapp',[]);
+			
+//			加载所有模块完成时,此方法加载一次
+			app.run(function($templateCache){
+				$templateCache.put('directiveDemo1.html',"<div> hello world !! </div>")
+			})
+			app.directive('hello' , function( $templateCache ){
+				return {
+					restrict: "AECM",
+					template: $templateCache.get('directiveDemo1.html'),
+					replace: true
+				}
+			} )
+		</script>
+	</body>
+</html>

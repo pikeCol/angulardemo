@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
+		<title></title>
+	</head>
+	<body ng-app="myapp">
+		
+		<div ng-controller="first">
+			<loader hwoToLoad="loading()">滑动加载</loader>
+		</div>
+		<div ng-controller="second">
+			<loader hwoToLoad="loading2()">滑动加载</loader>
+		</div>
+			
+		<script type="text/javascript">
+			var app = angular.module('myapp',[]);
+						
+			app.controller('first',['$scope',function($scope){
+				$scope.loading=function(){
+					console.log('加载中....')
+				}
+			}])
+			
+			app.controller('second',['$scope',function($scope){
+				$scope.loading2=function(){
+					console.log('加载中....222')
+				}
+			}])
+			
+//			注意  hwotoload  这边要写成小写  
+			
+			app.directive('loader' , function(){
+				return {
+					restrict: "AE",
+					link: function(scope,element,attrs){
+						element.bind('mouseenter', function(event) {
+							console.log(attrs.hwotoload)
+							scope.$apply( attrs.hwotoload )							
+						})
+					}
+				}
+			} )
+			
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
+		<title></title>
+	</head>
+	<body ng-app="myapp">
+		
+		<hello></hello>
+		<hello></hello>
+			
+		<script type="text/javascript">
+		
+//		scope绑定策略:  @ 把当前属性当做字符串传递,你还可以绑定外层scope的值,在属性值中插入{{}},即可.
+//				= 与父scope的属性进行双向绑定
+//				& 传递一个来自父scope的函数,稍后调用
+		
+			var app = angular.module('myapp',[]);
+			app.directive('hello',function(){
+				return {
+					restrict:'AE',
+					scope:{
+						
+					},
+					template:'<div><input type="text" ng-model="username"/>{{username}}</div>',
+					replace:true
+				}
+			})
+			
+		</script>
+	</body>
+</html>

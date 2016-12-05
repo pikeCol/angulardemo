@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
+		<title></title>
+	</head>
+	<body ng-app="myapp">
+		
+		<div ng-controller="first">
+			<loader>滑动加载</loader>
+		</div>
+			
+		<script type="text/javascript">
+			var app = angular.module('myapp',[]);
+			
+//			angular 分为加载  编译  和链接阶段
+//			编译( 遍历dom,找到所有指令根据template,replace,transclude转化dom结构  )的时候有compile 则调用 
+//			对每一条指令运行link函数
+//			link 一般用来操作dom 绑定事件监听
+
+//注意事项: 1 compile 用于模板自身的转化,而link函数负责模型和视图进行动态关联
+//	   2 作用域在链接阶段才会被绑定到link函数之上
+//	   3 compile只会编译 的时候运行一次,而对指令的每个实例,link函数都会执行
+//	   4 compile可以返回prelink和postlink,而link只会返回postlink,如果需要修改dom应该在postlink中来做,在prelink中操作dom会报错,所以我们一般只写link
+			
+			app.controller('first',['$scope',function($scope){
+				$scope.loading=function(){
+					console.log('加载中....')
+				}
+			}])
+			
+			app.directive('loader' , function(){
+				return {
+					restrict: "AE",
+					link: function(scope,element,attr){
+						element.bind('mouseenter',function(){
+//							scope.loading();
+							scope.$apply('loading()')
+						})
+					}
+				}
+			} )
+			
+			
+		</script>
+	</body>
+</html>
