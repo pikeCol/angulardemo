@@ -1,0 +1,81 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
+		<title></title>
+	</head>
+	<body ng-app="myapp">
+		<div ng-controller="SomeController">
+			<toggle>
+				<expander class="toggle_ex" ng-repeat="expander in expanders" expander-title="expander.title">
+					{{expander.text}}
+				</expander>
+			</toggle>
+		</div>
+					
+		<script type="text/javascript">
+			var app = angular.module('myapp',[]);
+			app.directive('toggle',function(){
+				return {
+					restrict:'E',
+					replace:true,
+					transclude:true,
+					template:'<div ng-transclude></div>',
+					controller:function(){
+						var expanders=[];
+						this.getex = function(selectex) {
+							angular.forEach( expanders, function(expander) {
+								if(selectex != expander){
+									expander.showMe = false;
+								}
+							})
+						},
+						this.addexpander = function(expander){
+							expanders.push(expander)
+						}
+					}
+				}
+			});
+			
+			app.directive('expander',function(){
+				return {
+					restrict:'EA',
+					replace: true,
+					transclude: true,
+					require: '^?toggle',
+					scope: {
+						title:'= expanderTitle'
+					},
+					template :'<div><div class="title" ng-click="toggle()">{{title}}</div><div class="bodys" ng-show="showMe" ng-transclude></div></div>',
+					link: function(scope,element,attrs,toggleController){
+						scope.showMe = false;
+							console.log(scope);
+						
+						toggleController.addexpander(scope);
+						scope.toggle = function toggle (){
+							scope.showMe = !scope.showMe;
+							console.log(scope);
+							toggleController.getex(scope);
+						}
+					}
+				}
+			})
+			
+			app.controller('SomeController',function($scope){
+				$scope.expanders = [
+					{
+						title: 'click me to show',
+						text: 'i am content that was hidden but show now',
+					},{
+						title: 'click this',
+						text: 'i am event better',
+					},{
+						title: 'Test',
+						text: 'test',
+					}
+				]
+			})		
+		</script>
+	</body>
+</html>

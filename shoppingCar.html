@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
+		<link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap.css" rel="stylesheet">
+	</head>
+	<body  ng-app="app">
+		<div class="container" ng-controller="car">
+			<table class="table">
+				<thead>
+					<tr>
+						<td>产品编号</td>
+						<td>产品名字</td>
+						<td>购买数量</td>
+						<td>产品单价</td>
+						<td>产品总价</td>
+						<td>操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in cart">
+						<td>{{item.id}}</td>
+						<td>{{item.names}}</td>
+						<td>{{item.quantity}}</td>
+						<td>{{item.price}}</td>
+						<td>{{item.price*item.quantity}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<script type="text/javascript">
+			var app = angular.module('app',[]);
+			app.controller('car',['$scope', function($scope){
+
+				$scope.cart = [
+					{
+						id:1000,
+						names:'mi',
+						quantity:1,
+						price:2999
+					},
+					{
+						id:1001,
+						names:'mi1',
+						quantity:1,
+						price:1999
+					},
+					{
+						id:1020,
+						names:'mi2',
+						quantity:1,
+						price:3999
+					},
+					{
+						id:1030,
+						names:'mac',
+						quantity:1,
+						price:8999
+					}
+				]
+			}])
+		</script>
+	</body>
+</html>
