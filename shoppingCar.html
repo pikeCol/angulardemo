@@ -23,9 +23,15 @@
 					<tr ng-repeat="item in cart">
 						<td>{{item.id}}</td>
 						<td>{{item.names}}</td>
-						<td>{{item.quantity}}</td>
+						<td><button class="btn" ng-click="reduce(item)">-</button> {{item.quantity}}<button ng-click="add(item)" class="btn">+</button></td>
 						<td>{{item.price}}</td>
 						<td>{{item.price*item.quantity}}</td>
+						<td class="btn btn-danger" ng-click="remove(item.id)">移除</td>
+					</tr>
+					<tr>
+						<td>总价 {{totalPrice()}}</td>
+						<td>总数量 {{all_count()}}</td>
+						<td class="btn btn-danger" ng-click="removeAll()">清空购物车</td>
 					</tr>
 				</tbody>
 			</table>
@@ -60,7 +66,50 @@
 						quantity:1,
 						price:8999
 					}
-				]
+				];
+				
+				$scope.totalPrice = function(){
+					var total = 0;
+					angular.forEach($scope.cart,function(item){
+						total += item.quantity * item.price;
+					})
+					return total;
+				};
+				$scope.all_count = function(){
+					var count = 0;
+					angular.forEach($scope.cart,function(item){
+						count += item.quantity;
+					})
+					return count;
+				}
+				
+				$scope.remove = function(id){
+					var index;
+					angular.forEach($scope.cart,function(item,key){
+						if (item.id===id){
+							index = key;
+						}
+					});
+					
+					$scope.cart.splice(index,1);
+				};
+				$scope.removeAll = function(){
+					$scope.cart ={};
+				};
+				
+				$scope.add = function(item){
+					item.quantity++;
+				}
+				$scope.reduce = function(item){
+
+					if( item.quantity<=0 ){
+						alert('不能小于o0')
+						item.quantity=1
+					}
+					item.quantity--;
+					
+				}
+				
 			}])
 		</script>
 	</body>
